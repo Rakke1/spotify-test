@@ -1,9 +1,10 @@
-import useAuth from "./hooks/useAuth";
+import Sidebar from "./Sidebar";
 
 export default function Dashboard() {
   return (
-    <div>
+    <main>
+      <Sidebar/>
       Dashboard
-    </div>
+    </main>
   )
 }
