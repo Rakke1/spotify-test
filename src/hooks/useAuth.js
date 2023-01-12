@@ -8,6 +8,11 @@ const getAuthHeaders = () => ({
       ':' + process.env.REACT_APP_SPOTIFY_CLIENT_SECRET))
 });
 
+export const getUserHeaders = (accessToken) => ({
+  'Content-Type': 'application/json',
+  'Authorization': 'Bearer ' + accessToken
+});
+
 const setItemExpires = (expires_in) => {
   window.localStorage.setItem("expireTokenDate", (new Date()).setSeconds((new Date()).getSeconds() + expires_in - 60));
 }
@@ -18,9 +23,8 @@ const tokenIsExpired = () => {
 }
 
 export default function useAuth(code, state) {
-  const [accessToken, setAccessToken] = useState();;
+  const [accessToken, setAccessToken] = useState();
   const [refreshToken, setRefreshToken] = useState();
-  const [expiresIn, setExpiresIn] = useState();
 
   const getRefreshToken = useCallback(() => {
     const url = new URL(`${SPOTIFY_BASE_URL}/api/token`);
@@ -32,13 +36,11 @@ export default function useAuth(code, state) {
       }),
       headers: getAuthHeaders(),
     }) 
-
     if (tokenIsExpired()) {
       fetch(request)
       .then((res) => res.json())
       .then(res => {
         setAccessToken((oldValue) => res.access_token);
-        setExpiresIn((oldValue) => res.expires_in);
         window.localStorage.setItem("accessToken", res.access_token);
         setItemExpires(res.expires_in);
       })
@@ -58,11 +60,6 @@ export default function useAuth(code, state) {
         })
       })
   }, []);
-
-  const getUserHeaders = useCallback((accessToken) => ({
-    'Content-Type': 'application/json',
-    'Authorization': 'Bearer ' + accessToken
-  }), []);
 
   const getUserProfile = useCallback((accessToken, code) => {
     const url = new URL(`${SPOTIFY_API_BASE_URL}/me`);
@@ -95,7 +92,6 @@ export default function useAuth(code, state) {
       .then(res => {
         setAccessToken((oldValue) => res.access_token);
         setRefreshToken((oldValue) => res.refresh_token);
-        setExpiresIn((oldValue) => res.expires_in);
         window.localStorage.setItem("accessToken", res.access_token);
         window.localStorage.setItem("refreshToken", res.refresh_token);
         setItemExpires(res.expires_in);
@@ -105,7 +101,7 @@ export default function useAuth(code, state) {
       .catch(() => {
         window.location = "/";
       });
-  }, [setAccessToken, setRefreshToken, setExpiresIn, getUserProfile]);
+  }, [setAccessToken, setRefreshToken, getUserProfile]);
 
   useEffect(() => {
     let accessToken = window.localStorage.getItem("accessToken");
@@ -117,9 +113,6 @@ export default function useAuth(code, state) {
     if (refreshToken) {
       setRefreshToken((oldValue) => refreshToken);
     }
-    if (expiresIn) {
-      setExpiresIn((oldValue) => expiresIn);
-    }
   }, []);
 
   useEffect(() => {
@@ -129,7 +122,7 @@ export default function useAuth(code, state) {
   }, [code, state, spotifyLogin]);
 
   useEffect(() => {
-    if (!refreshToken || !expiresIn) return
+    if (!refreshToken) return
 
     getRefreshToken();
 
@@ -138,7 +131,7 @@ export default function useAuth(code, state) {
     }, (30) * 1000);
 
     return () => clearInterval(interval)
-  }, [refreshToken, expiresIn, getRefreshToken]);
+  }, [refreshToken, getRefreshToken]);
 
   return accessToken
 }
