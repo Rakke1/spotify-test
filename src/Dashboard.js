@@ -4,6 +4,7 @@ import useSpotify from "./hooks/useSpotify";
 import Sidebar from "./Sidebar";
 import SliderHead from "./Components/SliderHead";
 import TrackBox from "./Components/TrackBox";
+import Player from "./Player";
 
 export default function Dashboard({accessToken}) {
   const [darkMode, setDarkMode] = useState(false);
@@ -77,6 +78,7 @@ export default function Dashboard({accessToken}) {
             </div>
           </div>
         </div>
+        <Player />
       </div>
     </main>
   )

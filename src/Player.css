@@ -1,0 +1,94 @@
+.player {
+  display: flex;
+  flex-direction: column;
+}
+
+.player__body {
+  display: flex;
+  flex-grow: 1;
+}
+
+.footer {
+  position: fixed;
+  display: flex;
+  justify-content: flex-start;
+  bottom: 0;
+  padding:0px;
+  height: 65px;
+  width: 100%;
+  background-color: #fffff1eb;
+  gap: 10px;
+}
+
+.footer__left {
+  margin-left: 25px;
+  display: flex;
+  align-items: center;
+  color: #000800;
+  width: auto;
+  flex: 0.2;
+}
+
+.footer__center {
+  flex: 0.5;
+  padding: 0 10px;
+  color: #000800;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.footer__right {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: #0003;
+  width: auto;
+  gap: 0;
+  flex: 0.1;
+}
+
+.footer__albumLogo {
+  height: 45px;
+  width: 45px;
+  margin-right: 20px;
+  object-fit: contain;
+  background-color: lightgray;
+  border-radius: 10px;
+}
+
+.footer__songInfo > h4 {
+  align-self: baseline;
+}
+
+.footer__songInfo > p {
+  font-size: 12px;
+}
+
+.progress {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  height: 3px;
+  overflow: hidden;
+  font-size: .75rem;
+  background-color: #0004;
+  border-radius: 0.25rem;
+}
+
+.progress-bar {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  color: #fff;
+  text-align: center;
+  background-color: #007bff;
+  transition: width .6s ease;
+}
