@@ -82,7 +82,7 @@ export default function useAuth(code, state) {
         setUserId(res.id);
         setUserToFirebase(res.id, code);
       });
-  }, [getUserHeaders, setUserToFirebase]);
+  }, [setUserToFirebase]);
 
   const spotifyLogin = useCallback((code) => {
     const url = new URL(`${SPOTIFY_BASE_URL}/api/token`);
@@ -115,7 +115,6 @@ export default function useAuth(code, state) {
   useEffect(() => {
     let accessToken = window.localStorage.getItem("accessToken");
     let refreshToken = window.localStorage.getItem("refreshToken");
-    let expiresIn = window.localStorage.getItem("expiresIn");
     if (accessToken) {
       setAccessToken((oldValue) => accessToken);
     }
