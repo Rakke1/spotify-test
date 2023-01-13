@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useRef, useState } from "react";
 import Header from "./Header";
 import useSpotify from "./hooks/useSpotify";
 import Sidebar from "./Sidebar";
