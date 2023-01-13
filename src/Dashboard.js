@@ -1,4 +1,4 @@
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import Header from "./Header";
 import useSpotify from "./hooks/useSpotify";
 import Sidebar from "./Sidebar";
@@ -6,16 +6,17 @@ import SliderHead from "./Components/SliderHead";
 import TrackBox from "./Components/TrackBox";
 
 export default function Dashboard({accessToken}) {
+  const [darkMode, setDarkMode] = useState(false);
   const [newReleases, feturedPlaylists, categories] = useSpotify({accessToken});
   const sliderReleaseRef = useRef(null);
   const sliderFeaturedRef = useRef(null);
   const sliderCategoriesRef = useRef(null);
 
   return (
-    <main>
+    <main className={darkMode ? 'dark' : ''}>
       <Sidebar/>
       <div style={{width: "100%", overflow: "hidden"}}>
-        <Header/>
+        <Header setDarkMode={setDarkMode}/>
         <div style={{padding: '0 32px 0 32px'}}>
           <div className="slider">
             <SliderHead title="Released this week" sliderRef={sliderReleaseRef}/>

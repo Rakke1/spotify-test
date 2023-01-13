@@ -22,6 +22,20 @@ main {
   max-height: 100vh;
   overflow-x: auto;
   overflow-y: hidden;
+  background-color: #fff;
+}
+
+main.dark {
+  -webkit-filter: invert(100%);
+  filter: invert(100%);
+}
+
+main.dark img {
+  filter: invert(1)!important;
+}
+
+main img {
+  filter: invert(0)!important;
 }
 
 hr {
