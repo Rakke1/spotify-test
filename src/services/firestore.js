@@ -4,7 +4,9 @@ import {
     getDoc, 
     doc, 
     serverTimestamp,
-    setDoc, 
+    setDoc,
+    arrayUnion,
+    updateDoc, 
 } from "firebase/firestore";
 import { getAuth, signInAnonymously} from "firebase/auth";
 import { app } from "./firebase";
@@ -21,10 +23,18 @@ export const createUser = (userId, code) => {
     firstLogin: serverTimestamp(),
     userId: userId,
     code: code,
+    favorite: [],
   });
 };
 
 export const getUser = (userId) => {
   const usersColRef = doc(db, 'users', userId);
   return getDoc(usersColRef);
+};
+
+export const addUserFavourite = (userId, favouriteData) => {
+  const groceryDocRef = doc(db, 'users', userId)
+  return updateDoc(groceryDocRef, {
+    favorite: arrayUnion(favouriteData)
+  });
 };

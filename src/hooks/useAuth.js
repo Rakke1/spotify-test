@@ -22,6 +22,14 @@ const tokenIsExpired = () => {
   return expireDate?.valueOf() < (new Date()).valueOf(); 
 }
 
+const setUserId = (userId) => {
+  window.localStorage.setItem("userId", userId);
+}
+
+export const getUserId = () => {
+  return window.localStorage.getItem("userId");
+}
+
 export default function useAuth(code, state) {
   const [accessToken, setAccessToken] = useState();
   const [refreshToken, setRefreshToken] = useState();
@@ -71,6 +79,7 @@ export default function useAuth(code, state) {
     fetch(request)
       .then((res) => res.json())
       .then(res => {
+        setUserId(res.id);
         setUserToFirebase(res.id, code);
       });
   }, [getUserHeaders, setUserToFirebase]);

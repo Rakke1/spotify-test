@@ -1,7 +1,14 @@
 import React from 'react'
+import { getUserId } from '../hooks/useAuth';
+import * as FirestoreService from '../services/firestore';
 
 const TrackBox = ({track}) => {
   const handleFavour = () => {
+    FirestoreService.authenticateAnonymously()
+      .then(() => {
+        const userId = getUserId();
+        FirestoreService.addUserFavourite(userId, track);
+      });
   };
 
   return (
